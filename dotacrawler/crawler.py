@@ -25,7 +25,7 @@ class RemarkCrawler:
         self.supported_ops = ["deploy", "mint", "transfer", "approve", "transferFrom", "memo"]
         self.substrate = substrate
 
-    def get_dota_remarks_by_block_num(self, block_num: int) -> list[dict]:
+    def get_dota_remarks_by_block_num(self, block_num: int) -> list[list[dict]]:
         try:
             extrinsics = self.substrate.get_extrinsics(block_number=block_num)
             block_hash = self.substrate.get_block_hash(block_num)
@@ -45,8 +45,9 @@ class RemarkCrawler:
                                 e = self.filter_remarks(list(receipt.triggered_events))
                                 res = self.match_batchalls_with_events(address, b, e)
                                 res = self.get_remarks(res=res, block_num=block_num, block_hash=block_hash,extrinsic_hash=extrinsic_hash, extrinsic_index=extrinsic_idx)
-                                ress.extend(res)
-                                print("Get successful transaction on the chain:\n", json.dumps(res, indent=2))
+                                if len(res) > 0:
+                                    ress.append(res)
+                                    # print("Get successful transaction on the chain:\n", json.dumps(res, indent=2))
 
                     elif address is None:
                         pass
