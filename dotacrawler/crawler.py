@@ -91,9 +91,9 @@ class RemarkCrawler:
                                 memo = remark_call_args[0]["value"]
                                 memo_hash = "0x" + hashlib.blake2b(memo.encode("utf-8"), digest_size=32).hexdigest()
                                 memo_json = self.filter_vail_memo(memo)
-                                memo_json = json.dumps(memo_json)
                                 if memo_json == dict():
                                     break
+                                memo_json = json.dumps(memo_json)
                                 user_and_memo = []
                                 if n_proxy == 1:
                                     user_and_memo = ("proxy", memo_json, memo_hash)
